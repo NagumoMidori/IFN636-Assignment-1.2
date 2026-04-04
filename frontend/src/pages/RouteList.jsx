@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const statusBadge = {
   active: 'bg-blue-100 text-blue-700',
@@ -31,7 +32,7 @@ const RouteList = () => {
   }, [user]);
 
   if (loading) {
-    return <div className="text-gray-400">Loading routes...</div>;
+    return <LoadingSpinner text="Loading routes..." />;
   }
 
   return (
@@ -66,12 +67,12 @@ const RouteList = () => {
                 to={`/routes/${route._id}`}
                 className="block bg-white rounded-xl border border-gray-200 shadow-sm p-5 hover:border-accent-purple/50 hover:shadow-md transition-all"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-accent-blue/15 flex items-center justify-center text-accent-blue font-bold text-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 shrink-0 rounded-full bg-accent-blue/15 flex items-center justify-center text-accent-blue font-bold text-xs">
                       {route.transportType === 'bike' ? '🚲' : route.transportType === 'train' ? '🚆' : '🚗'}
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-gray-800 font-medium">{route.routeId}</p>
                       <p className="text-sm text-gray-400">
                         {completedStops}/{totalStops} stops completed
@@ -79,11 +80,11 @@ const RouteList = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 pl-13 sm:pl-0">
                     <span className="text-xs text-gray-400">
                       {new Date(route.createdAt).toLocaleDateString()}
                     </span>
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${statusBadge[route.status]}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium capitalize whitespace-nowrap ${statusBadge[route.status]}`}>
                       {route.status}
                     </span>
                   </div>
@@ -91,7 +92,7 @@ const RouteList = () => {
 
                 {/* Driver info for dispatcher */}
                 {user.role === 'dispatcher' && (
-                  <div className="mt-3 pt-3 border-t border-gray-100 flex gap-6 text-sm text-gray-400">
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex flex-wrap gap-x-6 gap-y-1 text-sm text-gray-400">
                     <span>Driver: {route.driver?.name || 'Unassigned'}</span>
                     <span>Transport: {route.transportType}</span>
                     {route.distance && <span>Distance: {route.distance}</span>}

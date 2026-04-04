@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 import MapView from '../components/MapView';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const statusBadge = {
   active: 'bg-blue-100 text-blue-700',
@@ -91,7 +92,7 @@ const RouteDetail = () => {
   };
 
   if (loading) {
-    return <div className="text-gray-400">Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (!route) {

@@ -7,6 +7,8 @@ import Profile from './pages/Profile';
 import DeliveryList from './pages/DeliveryList';
 import DeliveryDetail from './pages/DeliveryDetail';
 import CreateDelivery from './pages/CreateDelivery';
+import RouteList from './pages/RouteList';
+import RouteDetail from './pages/RouteDetail';
 
 function App() {
   return (
@@ -63,6 +65,26 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <DeliveryDetail />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/routes"
+          element={
+            <ProtectedRoute roles={['dispatcher', 'driver']}>
+              <DashboardLayout>
+                <RouteList />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/routes/:id"
+          element={
+            <ProtectedRoute roles={['dispatcher', 'driver']}>
+              <DashboardLayout>
+                <RouteDetail />
               </DashboardLayout>
             </ProtectedRoute>
           }

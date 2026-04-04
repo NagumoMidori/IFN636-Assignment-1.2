@@ -23,6 +23,7 @@ const DashboardLayout = ({ children }) => {
   if (user?.role === 'dispatcher') {
     navItems.push({ to: '/deliveries', label: 'All Deliveries', icon: '◫' });
     navItems.push({ to: '/routes', label: 'Routes', icon: '⊙' });
+    navItems.push({ to: '/routes/create', label: 'New Route', icon: '+' });
   }
 
   if (user?.role === 'driver') {

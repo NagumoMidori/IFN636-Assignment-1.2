@@ -40,6 +40,14 @@ const RouteList = () => {
         <h1 className="text-2xl font-bold text-gray-800">
           {user.role === 'driver' ? 'My Routes' : 'All Routes'}
         </h1>
+        {user.role === 'dispatcher' && (
+          <Link
+            to="/routes/create"
+            className="px-4 py-2.5 bg-accent-purple hover:bg-accent-purple/80 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            + New Route
+          </Link>
+        )}
       </div>
 
       {routes.length === 0 ? (

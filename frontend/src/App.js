@@ -9,6 +9,7 @@ import DeliveryDetail from './pages/DeliveryDetail';
 import CreateDelivery from './pages/CreateDelivery';
 import RouteList from './pages/RouteList';
 import RouteDetail from './pages/RouteDetail';
+import CreateRoute from './pages/CreateRoute';
 
 function App() {
   return (
@@ -65,6 +66,16 @@ function App() {
             <ProtectedRoute>
               <DashboardLayout>
                 <DeliveryDetail />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/routes/create"
+          element={
+            <ProtectedRoute roles={['dispatcher']}>
+              <DashboardLayout>
+                <CreateRoute />
               </DashboardLayout>
             </ProtectedRoute>
           }

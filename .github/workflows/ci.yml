@@ -10,7 +10,7 @@ on:
 
 jobs:
   backend:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         working-directory: backend
@@ -31,7 +31,7 @@ jobs:
         run: npm test
 
   frontend:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     defaults:
       run:
         working-directory: frontend
@@ -50,3 +50,59 @@ jobs:
 
       - name: Build frontend
         run: npm run build
+
+  deploy:
+    needs: [backend, frontend]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: self-hosted
+    env:
+      DEPLOY_DIR: /home/ubuntu/IFN636-Assignment-1.2
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '18'
+
+      - name: Sync repository to deployment directory
+        run: |
+          mkdir -p "$DEPLOY_DIR"
+          rsync -a \
+            --exclude '.git' \
+            --exclude 'backend/.env' \
+            --exclude 'backend/node_modules' \
+            --exclude 'frontend/node_modules' \
+            --exclude 'frontend/build' \
+            "$GITHUB_WORKSPACE/" "$DEPLOY_DIR/"
+
+      - name: Write production environment file
+        run: |
+          printf '%s\n' "${{ secrets.PROD }}" > "$DEPLOY_DIR/backend/.env"
+
+      - name: Install backend dependencies
+        run: |
+          cd "$DEPLOY_DIR/backend"
+          npm install
+
+      - name: Install frontend dependencies and build
+        run: |
+          cd "$DEPLOY_DIR/frontend"
+          npm install
+          npm run build
+
+      - name: Restart backend service
+        run: |
+          pm2 restart delivery-backend || {
+            cd "$DEPLOY_DIR/backend"
+            pm2 start server.js --name delivery-backend
+          }
+
+      - name: Restart frontend service
+        run: |
+          pm2 restart frontend || pm2 serve "$DEPLOY_DIR/frontend/build" 3000 --name frontend --spa
+
+      - name: Save PM2 process list
+        run: pm2 save

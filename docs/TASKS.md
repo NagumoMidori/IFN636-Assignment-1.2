@@ -38,10 +38,13 @@
 - [ ] Register delivery routes in `server.js`
 - [ ] Add delivery test cases
 
-### Frontend
-- [ ] Create `CreateDelivery` page (Customer) — form: receiver name, phone, pickup address, package type
-- [ ] Create `DeliveryList` component — card list with status badges (Delivered/Pending/Cancelled)
-- [ ] Create `DeliveryDetail` page — shows full delivery info, driver info, status
+### Frontend (desktop-first, dark dashboard style per `docs/style.png`)
+- [ ] Configure Tailwind theme — dark color palette (deep navy sidebar/bg, card colors, accent blues/purples, status badge colors from Figma)
+- [ ] Create sidebar layout component — left sidebar navigation + top bar (search, user avatar), reusable across all pages
+- [ ] Restyle Phase 1 pages to dark dashboard style — Login, Register, Profile, Navbar
+- [ ] Create `CreateDelivery` page (Customer) — form: receiver name, phone, pickup address, package type; dark card style
+- [ ] Create `DeliveryList` component — card list with status badges (green Delivered / yellow Pending / red Cancelled), matching all Figma content
+- [ ] Create `DeliveryDetail` page — full delivery info, driver info, status, package type; all Figma fields present
 - [ ] Wire up API calls via `axiosConfig.jsx`
 
 ---
@@ -66,48 +69,51 @@
 - [ ] Register route routes in `server.js`
 - [ ] Add route test cases
 
-### Frontend
-- [ ] Create `RouteList` component — cards with route ID, date, status badge
-- [ ] Create `RouteDetail` page — route info, stops list, mark complete toggle
-- [ ] Dispatcher: Reassign Driver form, Regenerate Route action
-- [ ] Driver: mark stops as complete, progress indicator
+### Frontend (dark dashboard style, all Figma content required)
+- [ ] Install `leaflet` + `react-leaflet` — map dependency for route visualization
+- [ ] Create reusable `MapView` component — Leaflet map with stop markers (color-coded by completed/pending status), using OpenStreetMap tiles
+- [ ] Create `RouteList` component — cards with route ID, date, status badge, driver info; dark card style
+- [ ] Create `RouteDetail` page — embed MapView, route info, stops list, mark complete toggle, distance, duration; all Figma fields present
+  - Dispatcher view: Reassign Driver form (driver selection list), Regenerate Route action (transport type selection: Bike/Car/Train)
+  - Driver view: mark stops as complete, progress indicator (x/total completed), next stop highlight (city, distance, time), Navigate button
+  - Customer view: read-only route/delivery info, driver info, package type, weight, distance
 
 ---
 
 ## Phase 4: Role-Based Dashboards (branch: `feature/dashboards`)
 
-### Customer Dashboard
+### Customer Dashboard (dark dashboard style, all Figma content required)
 - [ ] Greeting header with user name
-- [ ] Current/latest delivery highlight card
+- [ ] Current/latest delivery highlight card (full delivery info as per Figma)
 - [ ] "Create Delivery" button → links to CreateDelivery page
 - [ ] Delivery history list with status badges
 
-### Dispatcher/Admin Dashboard
+### Dispatcher/Admin Dashboard (dark dashboard style, all Figma content required)
 - [ ] Greeting header with user name
 - [ ] Stats cards: Completed Deliveries count, Active Routes count
 - [ ] Search bar to filter deliveries
-- [ ] "All Deliveries" list — route cards with ID, date, status badge
+- [ ] "All Deliveries" list — delivery/route cards with ID, date, status badge, driver info
 
-### Driver Dashboard
+### Driver Dashboard (dark dashboard style, all Figma content required)
 - [ ] Greeting header with user name
-- [ ] Current route card (route ID, stop count)
-- [ ] "Next Stop" highlight card
+- [ ] Current route card (route ID, stop count, driver info)
+- [ ] "Next Stop" highlight card (city name, distance, time)
 - [ ] Stats: completed / pending counts
 - [ ] Recent deliveries list
 
 ### Shared
 - [ ] Update `App.js` routing — role-based dashboard redirect after login
-- [ ] Update Profile page — show role badge, phone, total routes managed
+- [ ] Update Profile page — show role badge, phone, total routes managed; dark card style
 
 ---
 
 ## Phase 5: Responsive Styling (branch: `feature/responsive-ui`)
 
-- [ ] Apply Figma color palette via Tailwind config (purple primary, green secondary)
-- [ ] Style all pages with Tailwind — card-based layouts, status badges, gradients
-- [ ] Responsive navbar: top nav on desktop, hamburger or bottom nav on mobile
-- [ ] Responsive layouts: single column on mobile, multi-column grid on desktop
+- [ ] Responsive sidebar: collapse to hamburger menu or bottom nav on mobile
+- [ ] Responsive layouts: single column on mobile (reference Figma mobile designs), multi-column grid on desktop
+- [ ] Fine-tune spacing, typography, and card layouts for mobile viewports
 - [ ] Test on mobile viewport sizes (375px, 390px) and desktop (1024px+)
+- [ ] Polish: consistent hover states, transitions, loading states
 
 ---
 

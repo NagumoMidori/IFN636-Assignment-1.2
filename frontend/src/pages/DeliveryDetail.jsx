@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const statusBadge = {
   delivered: 'bg-green-100 text-green-700',
@@ -61,7 +62,7 @@ const DeliveryDetail = () => {
   };
 
   if (loading) {
-    return <div className="text-gray-400">Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (!delivery) {
@@ -163,7 +164,7 @@ const DeliveryDetail = () => {
           {/* Dispatcher: update status, assign driver, delete */}
           {user.role === 'dispatcher' && (
             <div className="space-y-4">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <label className="block text-sm text-gray-600 mb-1">Status</label>
                   <select

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const statusBadge = {
   delivered: 'bg-green-100 text-green-700',
@@ -34,7 +35,7 @@ const CustomerDashboard = () => {
   const latestDelivery = deliveries[0];
 
   if (loading) {
-    return <div className="text-gray-400">Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

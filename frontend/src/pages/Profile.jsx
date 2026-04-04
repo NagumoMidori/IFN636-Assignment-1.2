@@ -14,21 +14,30 @@ const Profile = () => {
     phone: '',
   });
   const [loading, setLoading] = useState(true);
+  const [routeCount, setRouteCount] = useState(0);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axiosInstance.get('/api/auth/profile', {
+        const profileRes = await axiosInstance.get('/api/auth/profile', {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        setProfile(response.data);
+        setProfile(profileRes.data);
         setFormData({
-          name: response.data.name || '',
-          email: response.data.email || '',
-          university: response.data.university || '',
-          address: response.data.address || '',
-          phone: response.data.phone || '',
+          name: profileRes.data.name || '',
+          email: profileRes.data.email || '',
+          university: profileRes.data.university || '',
+          address: profileRes.data.address || '',
+          phone: profileRes.data.phone || '',
         });
+
+        // Fetch route count for dispatcher/driver
+        if (user.role === 'dispatcher' || user.role === 'driver') {
+          const routeRes = await axiosInstance.get('/api/routes', {
+            headers: { Authorization: `Bearer ${user.token}` },
+          });
+          setRouteCount(routeRes.data.length);
+        }
       } catch (error) {
         alert('Failed to fetch profile.');
       } finally {
@@ -36,7 +45,7 @@ const Profile = () => {
       }
     };
 
-    if (user) fetchProfile();
+    if (user) fetchData();
   }, [user]);
 
   const handleSubmit = async (e) => {
@@ -126,6 +135,7 @@ const Profile = () => {
                 { label: 'Phone', value: profile?.phone || '-' },
                 { label: 'University', value: profile?.university || '-' },
                 { label: 'Address', value: profile?.address || '-' },
+                ...(user.role !== 'customer' ? [{ label: 'Total Routes Managed', value: routeCount }] : []),
               ].map((item) => (
                 <div key={item.label} className="bg-gray-50 rounded-lg p-4">
                   <p className="text-xs text-gray-400 mb-1">{item.label}</p>

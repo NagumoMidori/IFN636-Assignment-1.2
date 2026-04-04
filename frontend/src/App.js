@@ -10,6 +10,7 @@ import CreateDelivery from './pages/CreateDelivery';
 import RouteList from './pages/RouteList';
 import RouteDetail from './pages/RouteDetail';
 import CreateRoute from './pages/CreateRoute';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           element={
             <ProtectedRoute>
               <DashboardLayout>
-                <div className="text-gray-400">Dashboard coming soon...</div>
+                <Dashboard />
               </DashboardLayout>
             </ProtectedRoute>
           }
